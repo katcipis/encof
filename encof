@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+
+import sys
+import codecs
+
+contentbytes = open(sys.argv[1], "rb").read()
+print("raw bytes: [{}]".format(contentbytes))
+
+# Crappy python does not provides a list of available encodings =/
+encodings = [
+        "ascii",
+        "utf_8",
+        "latin_1",
+        "iso8859_2",
+        "cp037",
+        "cp437",
+        "cp852",
+        "cp1252",
+        "iso8859_15",
+        "mac_roman",
+        "utf_32",
+        "utf_32_be",
+        "utf_32_le",
+        "utf_16",
+        "utf_16_be",
+        "utf_16_le",
+        "utf_7",
+        "utf_8",
+        "utf_8_sig"
+]
+
+results = {}
+
+for enc in encodings:
+    try:
+        results[enc] = codecs.decode(contentbytes, encoding=enc)
+    except UnicodeDecodeError:
+        print("cant decode as [{}]".format(enc))
+
+print("possible codecs:\n")
+for codec,data in results.items():
+    print("{} = [{}]".format(codec, data))
